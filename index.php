@@ -7,6 +7,9 @@
         <style media="screen">
             .table {
                 width: 100%;
+                margin-bottom: 20px;
+                clear: both;
+                float: left;
             }
             .table .header {
                 font-weight: bold;
@@ -62,5 +65,6 @@
             <?php endforeach; ?>
 
         </div>
+        <?= implode(", ", $euro_countries); ?>
     </body>
 </html>

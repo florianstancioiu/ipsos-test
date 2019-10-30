@@ -33,3 +33,12 @@ foreach ($xml->getElementsByTagName("country") as $xml_country) {
 }
 
 $regions = array_unique($regions);
+
+// Retrieve EURO countries
+$euro_countries = [];
+$query = "//countries/country/currency[contains(@code, 'EUR')]/../name";
+$xpath = new DOMXPath($xml);
+$xpath_results = $xpath->query($query);
+foreach($xpath_results as $result) {
+    $euro_countries[] = $result->nodeValue;
+}
