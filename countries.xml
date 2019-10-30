@@ -23,6 +23,7 @@
 		<language native="български">Bulgarian</language>
 		<currency code="BGN">лев</currency>
 		<map_url>https://www.google.ro/maps/place/Bulgaria/@42.7253401,25.4833039,8z/data=!3m1!4b1!4m2!3m1!1s0x40a8fec1c85bf089:0xa01269bf4c10?hl=en</map_url>
+    </country>
 	<country zone="central">
 		<name native="Deutschland">Germany</name>
 		<language native="Deutsch">Germanian</language>
@@ -34,7 +35,7 @@
 		<language native="Italiano">Italian</language>
 		<currency code="EUR">Euro</currency>
 		<map_url>https://www.google.ro/maps/place/Italy/@41.2924601,12.5736108,6z/data=!3m1!4b1!4m2!3m1!1s0x12d4fe82448dd203:0xe22cf55c24635e6f?hl=en</map_url>
-	</county>
+	</country>
 	<country zone="western">
 		<name native="Portugal">Portugal</name>
 		<language native="português">Portuguese</language>
