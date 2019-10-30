@@ -9,7 +9,7 @@
 	<country zone="western">
 		<name native="France">France</name>
 		<language native="français">French</language>
-		<currency code="EUR">Euro<</currency>
+		<currency code="EUR">Euro</currency>
 		<map_url>https://www.google.ro/maps/place/France/@46.2157467,2.2096957,6z/data=!3m1!4b1!4m2!3m1!1s0xd54a02933785731:0x6bfd3f96c747d9f7?hl=en</map_url>
 	</country>
 	<country zone="western">
