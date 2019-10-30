@@ -8,7 +8,6 @@
             .table {
                 width: 100%;
                 margin-bottom: 20px;
-                clear: both;
                 float: left;
             }
             .table .header {
@@ -43,6 +42,14 @@
         </style>
     </head>
     <body>
+
+        <div>
+            <a href="?">No Region</a>
+            <?php foreach(get_xml_regions() as $region): ?>
+                <a href="?region=<?= $region ?>"><?= ucfirst($region) ?></a>
+            <?php endforeach; ?>
+        </div>
+
         <div class="table">
             <div class="header">
                 <div>Region</div>
@@ -53,7 +60,7 @@
                 <div>Longitude</div>
             </div>
 
-            <?php foreach($countries as $country): ?>
+            <?php foreach(get_xml_records() as $country): ?>
                 <div class="record">
                     <div><?= $country['region']; ?></div>
                     <div><?= $country['name']; ?> (<?= $country['native_name']; ?>)</div>
@@ -65,6 +72,9 @@
             <?php endforeach; ?>
 
         </div>
-        <?= implode(", ", $euro_countries); ?>
+
+        <div>
+            <?= implode(", ", get_euro_countries()); ?>
+        </div>
     </body>
 </html>

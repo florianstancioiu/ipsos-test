@@ -1,44 +1,73 @@
 <?php
 
-$xml = new DOMDocument();
-$xml->load('countries.xml');
-$regions = [];
-$countries = [];
+function get_xml_regions() : array {
+    $xml = new DOMDocument();
+    $xml->load('countries.xml');
+    $countries = $xml->getElementsByTagName("country");
 
-// Retrieve XML data
-foreach ($xml->getElementsByTagName("country") as $xml_country) {
-    $region = $xml_country->getAttribute("zone");
-    $name = $xml_country->getElementsByTagName("name")->item(0);
-    $language = $xml_country->getElementsByTagName("language")->item(0);
-    $currency = $xml_country->getElementsByTagName("currency")->item(0);
-    $map_url = $xml_country->getElementsByTagName("map_url")->item(0)->nodeValue;
+    $regions = [];
+    foreach ($countries as $country) {
+        $regions[] = $country->getAttribute("zone");
+    }
 
-    // retrieve latitude and longitude
-    $pattern = '|^https://www.google.ro/maps/place/[\w]+/@([\d.,-]+),|';
-    preg_match($pattern, $map_url, $matches);
-    $coordinates = explode(",", $matches[1]);
-
-    $countries[] = [
-        'region' => $region,
-        'name' => $name->nodeValue,
-        'native_name' => $name->getAttribute("native"),
-        'language' => $language->nodeValue,
-        'native_language' => $language->getAttribute("native"),
-        'currency' => $currency->nodeValue,
-        'currency_code' => $currency->getAttribute("code"),
-        'latitude' => $coordinates[0],
-        'longitude' => $coordinates[1]
-    ];
-    $regions[] = $region;
+    return array_unique($regions);
 }
 
-$regions = array_unique($regions);
+function get_xml_records() : array {
+    $xml = new DOMDocument();
+    $xml->load('countries.xml');
+    $xml_data = $xml->getElementsByTagName("country");
+    $region = isset($_GET['region']) ? (string) $_GET['region'] : '';
+    $regions = [];
+    $countries = [];
 
-// Retrieve EURO countries
-$euro_countries = [];
-$query = "//countries/country/currency[contains(@code, 'EUR')]/../name";
-$xpath = new DOMXPath($xml);
-$xpath_results = $xpath->query($query);
-foreach($xpath_results as $result) {
-    $euro_countries[] = $result->nodeValue;
+    // Filter data by $_GET['region']
+    if (is_string($region) && strlen($region) > 0) {
+        $query = "/countries/country[contains(@zone, '$region')]";
+        $xpath = new DOMXPath($xml);
+        $xml_data = $xpath->query($query);
+    }
+    
+    foreach ($xml_data as $country) {
+        $region = $country->getAttribute("zone");
+        $name = $country->getElementsByTagName("name")->item(0);
+        $language = $country->getElementsByTagName("language")->item(0);
+        $currency = $country->getElementsByTagName("currency")->item(0);
+        $map_url = $country->getElementsByTagName("map_url")->item(0)->nodeValue;
+
+        // Retrieve latitude and longitude
+        $pattern = '|^https://www.google.ro/maps/place/[\w]+/@([\d.,-]+),|';
+        preg_match($pattern, $map_url, $matches);
+        $coordinates = explode(",", $matches[1]);
+
+        $countries[] = [
+            'region' => $region,
+            'name' => $name->nodeValue,
+            'native_name' => $name->getAttribute("native"),
+            'language' => $language->nodeValue,
+            'native_language' => $language->getAttribute("native"),
+            'currency' => $currency->nodeValue,
+            'currency_code' => $currency->getAttribute("code"),
+            'latitude' => $coordinates[0],
+            'longitude' => $coordinates[1]
+        ];
+    }
+
+    return $countries;
+}
+
+function get_euro_countries() : array {
+    $xml = new DOMDocument();
+    $xml->load('countries.xml');
+    $xml_data = $xml->getElementsByTagName("country");
+    $euro_countries = [];
+
+    $query = "/countries/country/currency[contains(@code, 'EUR')]/../name";
+    $xpath = new DOMXPath($xml);
+    $xpath_results = $xpath->query($query);
+    foreach($xpath_results as $result) {
+        $euro_countries[] = $result->nodeValue;
+    }
+
+    return $euro_countries;
 }
