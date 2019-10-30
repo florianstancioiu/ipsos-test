@@ -33,6 +33,3 @@ foreach ($xml->getElementsByTagName("country") as $xml_country) {
 }
 
 $regions = array_unique($regions);
-
-var_dump($countries, $regions);
-die();
